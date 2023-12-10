@@ -3,18 +3,6 @@
 version = 3
 
 [[package]]
-name = "Akademia"
-version = "0.0.1"
-dependencies = [
- "devtools",
- "serde",
- "tauri",
- "tauri-build",
- "tauri-plugin-single-instance",
- "tauri-plugin-window-state",
-]
-
-[[package]]
 name = "addr2line"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -36,6 +24,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b2969dcb958b36655471fc61f7e416fa76033bdd4bfed0678d8fee1e2d07a1f0"
 dependencies = [
  "memchr",
+]
+
+[[package]]
+name = "akademia"
+version = "0.0.1"
+dependencies = [
+ "devtools",
+ "serde",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-single-instance",
+ "tauri-plugin-window-state",
 ]
 
 [[package]]
