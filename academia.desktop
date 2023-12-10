@@ -1,0 +1,8 @@
+[Desktop Entry]
+Categories=School
+Comment=Academia Companion App
+Exec=academia
+Icon=academia
+Name=Academia
+Terminal=false
+Type=Application

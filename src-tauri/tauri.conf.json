@@ -1,0 +1,25 @@
+{
+  "build": {
+    "beforeDevCommand": "cd frontend && npm run dev",
+    "beforeBuildCommand": "cd frontend/ && npm install && npm run build",
+    "devPath": "http://localhost:5173",
+    "distDir": "../frontend/dist",
+    "withGlobalTauri": false
+  },
+  "package": {
+    "productName": "Academia",
+    "version": "0.0.1"
+  },
+  "tauri": {
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Academia"
+      }
+    ]
+  }
+}

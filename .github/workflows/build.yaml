@@ -1,0 +1,179 @@
+name: Publish
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to bump to'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  update_version:
+    permissions:
+      contents: write
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.semver.outputs.semantic-version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          
+      - id: semver
+        uses: SOLIDSoftworks/semver-tags@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+          tag-prefix: 'v'
+          incremented-value: ${{ inputs.version }}
+
+      - name: NPM-Version
+        uses: Reedyuk/NPM-Version@1.2.1
+        with:
+          version: ${{ steps.semver.outputs.semantic-version }}
+      
+      - name: Update cargo and tauri version
+        run: |
+          sudo apt install jq
+          sed -i '0,/\(version *= *\).*/s//\1"${{ steps.semver.outputs.semantic-version }}"/' src-tauri/Cargo.toml
+          jq '.package.version="${{ steps.semver.outputs.semantic-version }}"' src-tauri/tauri.conf.json > tauri.config.json.new && mv tauri.config.json.new src-tauri/tauri.conf.json
+          sed -i '/name = "music-assistant-companion"/{N;s/\(version *= *\)".*"/\1"'"${{ steps.semver.outputs.semantic-version }}"'"/;}' src-tauri/Cargo.lock
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "Jonathan Bangert"
+          git config --global user.email "jonathan@bangert.dk"
+    
+          git add -A
+          git commit -m "Update version to ${{ steps.semver.outputs.semantic-version }}"
+          git push
+
+  build:
+    needs: update_version
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, ubuntu-20.04, windows-latest, macos-12]
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Pull latest changes
+        run: |
+          git pull
+
+      - name: Install dependencies (Linux)
+        if: matrix.platform == 'ubuntu-20.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev librsvg2-dev libayatana-appindicator3-dev
+
+      - name: Install Rust (Stable)
+        run:
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+  
+      - name: Install Rust aarch (Mac)
+        if: matrix.platform == 'macos-latest'
+        run: rustup target add aarch64-apple-darwin
+  
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+          cache-on-failure: true
+
+      - name: Sync node version and setup cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: 'npm' # Set this to npm, yarn or pnpm.
+
+      - name: Install frontend dependencies
+        if: matrix.platform != 'windows-latest'
+        # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
+        run: npm install && cd $GITHUB_WORKSPACE/frontend/ && npm install && cd $GITHUB_WORKSPACE # Change this to npm, yarn or pnpm.
+
+      - name: Install frontend dependencies (Windows)
+        if: matrix.platform == 'windows-latest'
+        # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
+        run: npm install && cd $env:GITHUB_WORKSPACE/frontend/ && npm install && cd $env:GITHUB_WORKSPACE # Change this to npm, yarn or pnpm.
+
+      - name: Build the app (Linux)
+        if: matrix.platform == 'ubuntu-20.04'
+        uses: tauri-apps/tauri-action@v0
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with: 
+          tagName: v${{ needs.update_version.outputs.version }}
+          releaseName: "Music Assistant Companion App ${{ needs.update_version.outputs.version }}"
+          releaseBody: "Fixes"
+
+      - name: Build the app (Windows)
+        if: matrix.platform == 'windows-latest'
+        uses: tauri-apps/tauri-action@v0
+  
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          tagName: v${{ needs.update_version.outputs.version }}
+          releaseName: "Music Assistant Companion App ${{ needs.update_version.outputs.version }}"
+          releaseBody: "Fixes"
+
+      - name: Build the app (Mac (Apple Silicon))
+        if: matrix.platform == 'macos-latest'
+        uses: tauri-apps/tauri-action@v0
+  
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          args: --target aarch64-apple-darwin
+          tagName: v${{ needs.update_version.outputs.version }}
+          releaseName: "Music Assistant Companion App ${{ needs.update_version.outputs.version }}"
+          releaseBody: "Fixes"
+
+      - name: Build the app (Mac)
+        if: matrix.platform == 'macos-12'
+        uses: tauri-apps/tauri-action@v0
+  
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          tagName: v${{ needs.update_version.outputs.version }}
+          releaseName: "Music Assistant Companion App ${{ needs.update_version.outputs.version }}"
+          releaseBody: "Fixes"
+
+      - name: Upload linux binary
+        if: matrix.platform == 'ubuntu-22.04'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          tag: v${{ needs.update_version.outputs.version }}
+          asset_name: music-assistant-companion-${{ needs.update_version.outputs.version  }}
+          file: src-tauri/target/release/music-assistant-companion
+
+      - name: Upload squeezelite binary
+        if: matrix.platform == 'ubuntu-22.04'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          tag: v${{ needs.update_version.outputs.version }}
+          file: src-tauri/binaries/squeezelite-x86_64-unknown-linux-gnu
