@@ -1,10 +1,10 @@
 [package]
-name = "academia"
+name = "Akademia"
 version = "0.0.1"
-description = "Academia Companion App"
-authors = ["The Academia Team"]
+description = "Akademia Companion App"
+authors = ["The Akademia Team"]
 license = "Apache-2.0"
-repository = "https://github.com/academia/companion"
+repository = "https://github.com/Akademiaapp/companion"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -13,7 +13,11 @@ edition = "2021"
 tauri-build = { version = "1.5.0", features = [] }
 
 [dependencies]
-tauri = { version = "1.5.3", features = [] }
+devtools = "0.2.4"
+tauri = { version = "1.5.3", features = ["devtools", "tracing"] }
+tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+serde = "1.0.193"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
