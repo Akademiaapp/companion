@@ -1,7 +1,10 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use tauri::{Manager};
+use tauri::{
+    CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, Manager,
+};
+
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
@@ -27,7 +30,7 @@ fn main() {
 
     // Create the tray
     let tray: SystemTray = SystemTray::new().with_menu(tray_menu);
-    
+
     #[cfg(debug_assertions)] // only enable instrumentation in development builds
     let devtools = devtools::init();
 
