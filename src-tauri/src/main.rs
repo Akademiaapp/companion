@@ -10,6 +10,24 @@ struct Payload {
 }
 
 fn main() {
+    // Create the tray menu
+    let quit: CustomMenuItem = CustomMenuItem::new("quit".to_string(), "Quit");
+    let update: CustomMenuItem = CustomMenuItem::new("update".to_string(), "Check for updates");
+    let hide: CustomMenuItem = CustomMenuItem::new("hide".to_string(), "Hide");
+    let show: CustomMenuItem = CustomMenuItem::new("show".to_string(), "Show");
+    let relaunch: CustomMenuItem = CustomMenuItem::new("relaunch".to_string(), "Relaunch");
+    let tray_menu: SystemTrayMenu = SystemTrayMenu::new()
+        .add_item(hide)
+        .add_item(show)
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(update)
+        .add_item(relaunch)
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(quit);
+
+    // Create the tray
+    let tray: SystemTray = SystemTray::new().with_menu(tray_menu);
+    
     #[cfg(debug_assertions)] // only enable instrumentation in development builds
     let devtools = devtools::init();
 
