@@ -1,6 +1,6 @@
 [package]
 name = "akademia"
-version = "1.0.4"
+version = "0.0.5"
 description = "Akademia Companion App"
 authors = ["The Akademia Team"]
 license = "Apache-2.0"
