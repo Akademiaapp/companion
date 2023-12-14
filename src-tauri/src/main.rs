@@ -42,7 +42,8 @@ fn main() {
     builder
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);
-
+            let window: tauri::Window = app.get_window("main").unwrap();
+            window.show().unwrap();
             app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
         }))
         .plugin(tauri_plugin_window_state::Builder::default().build())
