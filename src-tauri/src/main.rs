@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::{
-    CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, Manager,
+    CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, Manager, plugin::TauriPlugin,
 };
 
 
@@ -31,15 +31,20 @@ fn main() {
     // Create the tray
     let tray: SystemTray = SystemTray::new().with_menu(tray_menu);
 
-    #[cfg(debug_assertions)] // only enable instrumentation in development builds
-    let devtools = devtools::init();
+    //#[cfg(debug_assertions)] // only enable instrumentation in development builds
+    let devtools: TauriPlugin<tauri::Wry> = devtools::init();
 
     let builder = tauri::Builder::default();
 
-    #[cfg(debug_assertions)]
+    //#[cfg(debug_assertions)]
     let builder = builder.plugin(devtools);
     // Run the tauri application
     builder
+        .on_page_load(|window, payload| {
+            if payload.url().to_string() == "about:blank" {
+                let _result = window.eval(&format!("window.location.replace('tauri://localhost');"));
+            }
+        })
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);
             let window: tauri::Window = app.get_window("main").unwrap();

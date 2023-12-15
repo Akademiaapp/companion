@@ -18,8 +18,7 @@
       "menuOnLeftClick": false
     },
     "security": {
-      "csp": null,
-      "dangerousUseHttpScheme": true
+      "csp": null
     },
     "windows": [
       {
