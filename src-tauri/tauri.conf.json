@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Akademia",
-    "version": "0.0.12"
+    "version": "0.0.13"
   },
   "tauri": {
     "systemTray": {
@@ -22,17 +22,14 @@
       "dangerousRemoteDomainIpcAccess": [
         {
           "domain": "https://github.com/login/oauth/authorize",
-          "windows": [
-            "main"
-          ],
+          "windows": ["main"],
           "enableTauriAPI": true
-        }, {
+        },
+        {
           "domain": "https://dashboard.akademia.cc/oauth_callback/github",
-          "windows": [
-            "main"
-          ],
+          "windows": ["main"],
           "enableTauriAPI": true
-       }
+        }
       ]
     },
     "windows": [
@@ -44,14 +41,7 @@
     ],
     "bundle": {
       "active": true,
-      "targets": [
-        "deb",
-        "appimage",
-        "nsis",
-        "app",
-        "dmg",
-        "updater"
-      ],
+      "targets": ["deb", "appimage", "nsis", "app", "dmg", "updater"],
       "identifier": "dk.akademiaapp.companion",
       "icon": [
         "icons/32x32.png",
