@@ -31,12 +31,12 @@ fn main() {
     // Create the tray
     let tray: SystemTray = SystemTray::new().with_menu(tray_menu);
 
-    //#[cfg(debug_assertions)] // only enable instrumentation in development builds
+    #[cfg(debug_assertions)] // only enable instrumentation in development builds
     let devtools: TauriPlugin<tauri::Wry> = devtools::init();
 
     let builder = tauri::Builder::default();
 
-    //#[cfg(debug_assertions)]
+    #[cfg(debug_assertions)]
     let builder = builder.plugin(devtools);
     // Run the tauri application
     builder
