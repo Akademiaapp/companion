@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Akademia",
-    "version": "0.0.11"
+    "version": "0.0.12"
   },
   "tauri": {
     "systemTray": {
@@ -19,13 +19,19 @@
     },
     "security": {
       "csp": null,
-       "dangerousRemoteDomainIpcAccess": [{
-        "domain": "https://github.com/login/oauth/authorize",
-        "windows": ["main"]
-       }, {
+      "dangerousRemoteDomainIpcAccess": [
+        {
+          "domain": "https://github.com/login/oauth/authorize",
+          "windows": [
+            "main"
+          ]
+        }, {
         "domain": "https://dashboard.akademia.cc/oauth_callback/github",
-        "windows": ["main"]
-       }]
+        "windows": [
+          "main"
+        ]
+       }
+      ]
     },
     "windows": [
       {
