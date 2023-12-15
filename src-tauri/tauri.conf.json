@@ -18,7 +18,11 @@
       "menuOnLeftClick": false
     },
     "security": {
-      "csp": null
+      "csp": null,
+       "dangerousRemoteDomainIpcAccess": [{
+        "domain": "https://github.com/login/oauth/authorize",
+        "windows": ["main"]
+       }]
     },
     "windows": [
       {
