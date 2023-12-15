@@ -41,12 +41,11 @@ fn main() {
     // Run the tauri application
     builder
         .on_page_load(|window, payload| {
-            if payload.url().to_string() == "about:blank" {
+            if payload.url().to_string() == "about:blank" && std::env::consts::OS == "linux" {
                 let _result = window.eval(&format!("window.location.replace('tauri://localhost');"));
             }
         })
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
-            println!("{}, {argv:?}, {cwd}", app.package_info().name);
             let window: tauri::Window = app.get_window("main").unwrap();
             window.show().unwrap();
             app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();

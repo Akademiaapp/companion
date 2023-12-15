@@ -17,6 +17,11 @@
       "iconAsTemplate": false,
       "menuOnLeftClick": false
     },
+    "allowlist": {
+      "notification": {
+        "all": true
+      }
+    },
     "security": {
       "csp": null,
       "dangerousRemoteDomainIpcAccess": [

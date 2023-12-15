@@ -14,7 +14,7 @@ tauri-build = { version = "1.5.0", features = [] }
 
 [dependencies]
 devtools = "0.2.4"
-tauri = { version = "1.5.3", features = [ "updater", "system-tray", "devtools", "tracing"] }
+tauri = { version = "1.5.3", features = [ "notification-all", "updater", "system-tray", "devtools", "tracing"] }
 tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 serde = "1.0.193"
