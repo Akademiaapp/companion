@@ -22,6 +22,9 @@
        "dangerousRemoteDomainIpcAccess": [{
         "domain": "https://github.com/login/oauth/authorize",
         "windows": ["main"]
+       }, {
+        "domain": "https://dashboard.akademia.cc/oauth_callback/github",
+        "windows": ["main"]
        }]
     },
     "windows": [
