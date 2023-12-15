@@ -24,12 +24,14 @@
           "domain": "https://github.com/login/oauth/authorize",
           "windows": [
             "main"
-          ]
+          ],
+          "enableTauriAPI": true
         }, {
-        "domain": "https://dashboard.akademia.cc/oauth_callback/github",
-        "windows": [
-          "main"
-        ]
+          "domain": "https://dashboard.akademia.cc/oauth_callback/github",
+          "windows": [
+            "main"
+          ],
+          "enableTauriAPI": true
        }
       ]
     },
