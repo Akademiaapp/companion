@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Akademia",
-    "version": "0.0.12"
+    "version": "0.0.13"
   },
   "tauri": {
     "systemTray": {
@@ -25,12 +25,13 @@
           "windows": [
             "main"
           ]
-        }, {
-        "domain": "https://dashboard.akademia.cc/oauth_callback/github",
-        "windows": [
-          "main"
-        ]
-       }
+        },
+        {
+          "domain": "https://dashboard.akademia.cc/oauth_callback/github",
+          "windows": [
+            "main"
+          ]
+        }
       ]
     },
     "windows": [
