@@ -74,10 +74,6 @@
       "endpoints": [
         "https://github.com/Akademiaapp/companion/releases/latest/download/latest.json"
       ],
-      "windows": {
-        "installMode": "quiet",
-        "installerArgs": []
-      }
     }
   }
 }
