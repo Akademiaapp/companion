@@ -66,6 +66,7 @@ fn main() {
             } => {
                 let window: tauri::Window = app.get_window("main").unwrap();
                 window.show().unwrap();
+                window.set_focus().unwrap();
             }
             SystemTrayEvent::DoubleClick {
                 position: _,
@@ -74,6 +75,7 @@ fn main() {
             } => {
                 let window: tauri::Window = app.get_window("main").unwrap();
                 window.show().unwrap();
+                window.set_focus().unwrap();
             }
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
                 "quit" => {
