@@ -28,7 +28,7 @@ dependencies = [
 
 [[package]]
 name = "akademia"
-version = "0.0.24"
+version = "0.0.23"
 dependencies = [
  "devtools",
  "serde",
