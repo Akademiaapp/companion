@@ -45,7 +45,8 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "Akademia"
+        "title": "Akademia",
+        "fileDropEnabled": false
       }
     ],
     "bundle": {
