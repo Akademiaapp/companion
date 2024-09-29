@@ -125,7 +125,7 @@ jobs:
 
       - name: Build the app (Windows)
         if: matrix.platform == 'windows-latest'
-        uses: tauri-apps/tauri-action@v0
+        uses: tauri-apps/tauri-action@v0.5.12
   
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
