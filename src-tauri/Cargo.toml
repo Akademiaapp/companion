@@ -10,14 +10,14 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.5.2", features = [] }
+tauri-build = { version = "1.5.5", features = [] }
 
 [dependencies]
-devtools = "0.3.1"
-tauri = { version = "1.6.7", features = [ "notification-all", "updater", "system-tray", "devtools", "tracing"] }
+devtools = "0.3.3"
+tauri = { version = "1.8.0", features = [ "notification-all", "updater", "system-tray", "devtools", "tracing"] }
 tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
-serde = "1.0.203"
+serde = "1.0.210"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
