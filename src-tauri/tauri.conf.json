@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeDevCommand": "cd frontend && npm run dev",
-    "beforeBuildCommand": "cd frontend/ && npm install && npm run build",
+    "beforeDevCommand": "cd frontend && bun run dev",
+    "beforeBuildCommand": "cd frontend/ && bun install && bun run build",
     "devPath": "http://localhost:5173",
     "distDir": "../frontend/build",
     "withGlobalTauri": true

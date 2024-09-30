@@ -94,21 +94,17 @@ jobs:
           workspaces: './src-tauri -> target'
           cache-on-failure: true
 
-      - name: Sync node version and setup cache
-        uses: actions/setup-node@v3
-        with:
-          node-version: 'lts/*'
-          cache: 'npm' # Set this to npm, yarn or pnpm.
+      - uses: oven-sh/setup-bun@v2
 
       - name: Install frontend dependencies
         if: matrix.platform != 'windows-latest'
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
-        run: npm install && cd $GITHUB_WORKSPACE/frontend/ && npm install && cd $GITHUB_WORKSPACE # Change this to npm, yarn or pnpm.
+        run: bun install && cd $GITHUB_WORKSPACE/frontend/ && bun install && cd $GITHUB_WORKSPACE
 
       - name: Install frontend dependencies (Windows)
         if: matrix.platform == 'windows-latest'
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
-        run: npm install && cd $env:GITHUB_WORKSPACE/frontend/ && npm install && cd $env:GITHUB_WORKSPACE # Change this to npm, yarn or pnpm.
+        run: bun install && cd $env:GITHUB_WORKSPACE/frontend/ && bun install && cd $env:GITHUB_WORKSPACE
 
       - name: Build the app (Linux)
         if: matrix.platform == 'ubuntu-20.04'
@@ -125,7 +121,7 @@ jobs:
 
       - name: Build the app (Windows)
         if: matrix.platform == 'windows-latest'
-        uses: tauri-apps/tauri-action@v0.5.12
+        uses: tauri-apps/tauri-action@v0
   
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

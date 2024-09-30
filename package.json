@@ -5,8 +5,8 @@
   "description": "The Akademia Companion app developed in Tauri.",
   "scripts": {
     "tauri": "tauri",
-    "build": "cd frontend/ && npm run build",
-    "dev": "cd frontend/ && npm run dev"
+    "build": "cd frontend/ && bun run build",
+    "dev": "cd frontend/ && bun run dev"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.6.2"
