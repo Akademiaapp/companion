@@ -42,7 +42,7 @@ jobs:
           sudo apt install jq
           sed -i '0,/\(version *= *\).*/s//\1"${{ steps.semver.outputs.semantic-version }}"/' src-tauri/Cargo.toml
           jq '.version="${{ steps.semver.outputs.semantic-version }}"' src-tauri/tauri.conf.json > tauri.config.json.new && mv tauri.config.json.new src-tauri/tauri.conf.json
-          sed -i '/name = "music-assistant-companion"/{N;s/\(version *= *\)".*"/\1"'"${{ steps.semver.outputs.semantic-version }}"'"/;}' src-tauri/Cargo.lock
+          sed -i '/name = "akademia"/{N;s/\(version *= *\)".*"/\1"'"${{ steps.semver.outputs.semantic-version }}"'"/;}' src-tauri/Cargo.lock
 
       - name: Commit and push changes
         run: |
