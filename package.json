@@ -1,6 +1,6 @@
 {
   "name": "akademia",
-  "version": "0.0.59",
+  "version": "0.0.60",
   "type": "module",
   "description": "The Akademia Companion app developed in Tauri.",
   "scripts": {
