@@ -165,4 +165,4 @@ jobs:
         with:
           tag: v${{ needs.update_version.outputs.version }}
           asset_name: akademia-${{ needs.update_version.outputs.version  }}
-          file: src-tauri/target/release/akademia
+          file: src-tauri/target/release/Akademia
