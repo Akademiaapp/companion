@@ -27,7 +27,7 @@
   },
   "productName": "Akademia",
   "mainBinaryName": "Akademia",
-  "version": "0.0.60",
+  "version": "0.0.61",
   "identifier": "cc.akademia.companion",
   "plugins": {
     "updater": {
